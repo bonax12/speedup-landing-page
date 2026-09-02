@@ -28,7 +28,7 @@
         --lift-3: #efe9f1;
         --lift-4: #fbe9e7;
         --radius: 16px;
-        --maxw: 1080px;
+        --maxw: 1200px;
         /* Exact body font stack the Speedup app renders in (Bootstrap 5 default). */
         --font:
           system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
@@ -213,6 +213,7 @@
       }
       .shot img {
         width: 100%;
+        height: auto;
         display: block;
       }
       /* graceful fallback caption when the screenshot file isn't present yet */
@@ -235,7 +236,7 @@
       }
 
       .hero-shot {
-        max-width: 940px;
+        max-width: 1120px;
         margin: 46px auto 0;
       }
       .hero-shot .shot {
@@ -295,7 +296,7 @@
         border-radius: 24px;
         padding: clamp(24px, 4vw, 44px);
         display: grid;
-        grid-template-columns: 1fr 1.15fr;
+        grid-template-columns: 0.85fr 1.5fr;
         gap: clamp(24px, 4vw, 48px);
         align-items: center;
       }
@@ -312,7 +313,7 @@
         background: var(--lift-4);
       }
       .feat .panel.flip {
-        grid-template-columns: 1.15fr 1fr;
+        grid-template-columns: 1.5fr 0.85fr;
       }
       .feat .panel.flip .copy {
         order: 2;
@@ -582,7 +583,7 @@
       }
       details {
         border-top: 1px solid var(--line);
-        padding: 20px 4px;
+        padding: 20px 24px;
       }
       details[open] {
         background: linear-gradient(180deg, var(--lift-1), transparent);
@@ -618,6 +619,115 @@
         font-size: 0.95rem;
         margin-top: 12px;
         max-width: 68ch;
+      }
+
+      /* ---------------- Phone showcase ---------------- */
+      .phone {
+        text-align: center;
+        padding-top: 90px;
+        padding-bottom: 40px;
+      }
+      .phone h2 {
+        font-size: clamp(1.9rem, 4.6vw, 2.9rem);
+        letter-spacing: -0.03em;
+        font-weight: 800;
+        margin-bottom: 14px;
+      }
+      .phone > p {
+        color: var(--muted);
+        max-width: 52ch;
+        margin: 0 auto 26px;
+        font-size: clamp(1.02rem, 2.2vw, 1.18rem);
+      }
+      .phone-tags {
+        display: flex;
+        gap: 10px 14px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 52px;
+      }
+      .phone-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .phone-tag svg {
+        width: 16px;
+        height: 16px;
+        fill: var(--accent);
+        flex-shrink: 0;
+      }
+      .phone-device {
+        position: relative;
+        width: 258px;
+        max-width: 78vw;
+        margin: 0 auto;
+        padding: 10px;
+        border-radius: 42px;
+        background: #171c17;
+        box-shadow:
+          0 0 0 2px #2b322b,
+          0 44px 90px -34px rgba(20, 40, 20, 0.5);
+      }
+      .phone-device::before {
+        /* notch */
+        content: "";
+        position: absolute;
+        top: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 46%;
+        height: 22px;
+        background: #171c17;
+        border-radius: 0 0 16px 16px;
+        z-index: 2;
+      }
+      .phone-screen {
+        border-radius: 34px;
+        overflow: hidden;
+        background: var(--surface);
+        display: block;
+      }
+      .phone-screen img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .phone-deco {
+        position: absolute;
+        top: -54px;
+        right: -38px;
+        width: 156px;
+        z-index: 3;
+        transform: rotate(13deg);
+        filter: drop-shadow(0 16px 26px rgba(20, 40, 20, 0.3));
+      }
+      .phone-deco img {
+        width: 100%;
+        height: auto;
+        display: block;
+        margin-left: 15px;
+      }
+      @media (max-width: 640px) {
+        .phone {
+          padding-top: 56px;
+          padding-bottom: 20px;
+        }
+        .phone-tags {
+          margin-bottom: 40px;
+        }
+        .phone-deco {
+          width: 128px;
+          top: -44px;
+          right: -20px;
+        }
       }
 
       /* ---------------- Final CTA ---------------- */
@@ -875,7 +985,7 @@
           margin-bottom: 22px;
         }
         details {
-          padding: 16px 2px;
+          padding: 16px 18px;
         }
         summary {
           font-size: 0.98rem;
@@ -1293,11 +1403,13 @@
         </div>
         <div
           class="shot"
-          data-label="Bracket screenshot — screenshots/bracket.png"
+          data-label="Auto-seeded single-elimination bracket"
         >
           <img
-            src="screenshots/bracket.png"
-            alt="Speedup bracket view showing quarterfinals, semifinals and final"
+            src="assets/7.png"
+            alt="Speedup bracket view: Round of 16 through Final plus a Bronze match, with a live match in progress and winners advancing automatically"
+            width="3300"
+            height="1800"
             loading="lazy"
             onerror="this.remove()"
           />
@@ -1348,11 +1460,13 @@
             </div>
             <div
               class="shot"
-              data-label="Teams screenshot — screenshots/teams.png"
+              data-label="Team rosters with per-player payment status"
             >
               <img
-                src="screenshots/teams.png"
-                alt="Teams and payment tracking screen"
+                src="assets/1.png"
+                alt="Speedup teams screen: pool rosters with per-player paid / partially paid / unpaid status and an Add Team form"
+                width="3320"
+                height="1800"
                 loading="lazy"
                 onerror="this.remove()"
               />
@@ -1386,11 +1500,13 @@
             </div>
             <div
               class="shot"
-              data-label="Referee screenshot — screenshots/referee.png"
+              data-label="Referee tap-to-score card with live serve tracking"
             >
               <img
-                src="screenshots/referee.png"
-                alt="Referee tap-to-score card with live serve tracking"
+                src="assets/4.png"
+                alt="Speedup referee scoring: a live pool match card with server-receiver-server number, a match timer and Update / Save buttons"
+                width="3320"
+                height="1800"
                 loading="lazy"
                 onerror="this.remove()"
               />
@@ -1424,11 +1540,13 @@
             </div>
             <div
               class="shot"
-              data-label="Standings screenshot — screenshots/standings.png"
+              data-label="Pool standings with the top two highlighted"
             >
               <img
-                src="screenshots/standings.png"
-                alt="Pool standings tables with wins, losses and differential"
+                src="assets/5.png"
+                alt="Speedup pool standings: six pools side by side with wins, losses, points for/against and differential, top two of each pool highlighted"
+                width="3320"
+                height="1800"
                 loading="lazy"
                 onerror="this.remove()"
               />
@@ -1446,34 +1564,74 @@
           <div class="copy">
             <h2>One live view for everyone on site</h2>
             <p>
-              Put the master schedule on a screen at the desk and hand players a
-              link. Pool play, standings and the bracket all stay current on
-              their own.
+              Put the standings on a screen at the desk and hand players a link.
+              Pool play, standings and the bracket all stay current on their own
+              &mdash; no sign-in, on any device.
             </p>
             <ul>
-              <li>Combined master schedule across pools and rounds</li>
               <li>Public pool play, standings and bracket pages</li>
-              <li>Check-in dashboard with a printable QR code</li>
+              <li>Filter to a single pool or see them all at once</li>
+              <li>Combined master schedule across pools and rounds</li>
               <li>No internet required &mdash; serve it on the venue Wi-Fi</li>
             </ul>
           </div>
           <div class="frame">
             <div class="bar">
-              <i></i><i></i><i></i><span>speedup — check-in</span>
+              <i></i><i></i><i></i><span>speedup — public standings</span>
             </div>
             <div
               class="shot"
-              data-label="Check-in screenshot — screenshots/checkin.png"
+              data-label="Public standings page for spectators"
             >
               <img
-                src="screenshots/checkin.png"
-                alt="Check-in dashboard with QR code and per-player status"
+                src="assets/6.png"
+                alt="Speedup public standings page with a pool filter, showing wins, losses and point differential per team"
+                width="3320"
+                height="1800"
                 loading="lazy"
                 onerror="this.remove()"
               />
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- PHONE SHOWCASE: REFEREE SCORING ON MOBILE -->
+    <section class="wrap phone reveal">
+      <h2>Score from the sidelines</h2>
+      <p>
+        The referee console is built for a phone in one hand &mdash; tap a name
+        to set the server, tap to score, and watch the R/L side and server
+        number update on their own.
+      </p>
+      <div class="phone-tags">
+        <span class="phone-tag">
+          <svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M280-40q-33 0-56.5-23.5T200-120v-720q0-33 23.5-56.5T280-920h400q33 0 56.5 23.5T760-840v720q0 33-23.5 56.5T680-40H280Zm0-200v120h400v-120H280Zm200 100q17 0 28.5-11.5T520-180q0-17-11.5-28.5T480-220q-17 0-28.5 11.5T440-180q0 17 11.5 28.5T480-140ZM280-320h400v-440H280v440Zm0-520h400v-40H280v40Z"/></svg>
+          Any phone browser
+        </span>
+        <span class="phone-tag">
+          <svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-56-216 226-226-58-58-168 168-84-84-58 58 142 142Z"/></svg>
+          No install, no login
+        </span>
+        <span class="phone-tag">
+          <svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M480-120q-33 0-56.5-23.5T400-200q0-33 23.5-56.5T480-280q33 0 56.5 23.5T560-200q0 33-23.5 56.5T480-120ZM254-346l-84-86q59-59 138.5-93.5T480-560q92 0 171.5 35T790-431l-84 85q-44-44-102-69t-124-25q-66 0-124 25t-102 69ZM84-516 0-602q92-94 215-146t265-52q142 0 265 52t215 146l-84 86q-77-77-178.5-120.5T480-680q-112 0-213.5 43.5T84-516Z"/></svg>
+          Runs on venue Wi-Fi
+        </span>
+      </div>
+      <div class="phone-device">
+        <span class="phone-deco" aria-hidden="true">
+          <img src="assets/speedup-shield.png" alt="" loading="lazy" />
+        </span>
+        <span class="phone-screen">
+          <img
+            src="assets/3.png"
+            alt="Speedup referee scoring on a phone: a live pool match card with score steppers, server-receiver-server number and a match timer"
+            width="1320"
+            height="2868"
+            loading="lazy"
+          />
+        </span>
       </div>
     </section>
 
@@ -1878,6 +2036,19 @@
         );
         items.forEach(function (el) {
           io.observe(el);
+        });
+      })();
+
+      /* ---- FAQ: only one accordion open at a time ---- */
+      (function () {
+        var faqItems = document.querySelectorAll("#faq details");
+        faqItems.forEach(function (item) {
+          item.addEventListener("toggle", function () {
+            if (!item.open) return;
+            faqItems.forEach(function (other) {
+              if (other !== item) other.open = false;
+            });
+          });
         });
       })();
 
