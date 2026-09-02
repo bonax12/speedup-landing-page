@@ -334,15 +334,18 @@
       }
       .feat li {
         font-size: 0.94rem;
-        padding-left: 24px;
+        padding-left: 26px;
         position: relative;
       }
       .feat li::before {
-        content: "→";
+        content: "";
         position: absolute;
         left: 0;
-        color: var(--accent);
-        font-weight: 700;
+        top: 0.16em;
+        width: 17px;
+        height: 17px;
+        background: url("assets/arrow_right_alt_24dp_187339_FILL0_wght400_GRAD0_opsz24.svg")
+          center / contain no-repeat;
       }
       @media (max-width: 820px) {
         .feat .panel,
@@ -493,15 +496,18 @@
       }
       .companion-copy li {
         font-size: 0.94rem;
-        padding-left: 24px;
+        padding-left: 26px;
         position: relative;
       }
       .companion-copy li::before {
-        content: "→";
+        content: "";
         position: absolute;
         left: 0;
-        color: var(--accent);
-        font-weight: 700;
+        top: 0.16em;
+        width: 17px;
+        height: 17px;
+        background: url("assets/arrow_right_alt_24dp_187339_FILL0_wght400_GRAD0_opsz24.svg")
+          center / contain no-repeat;
       }
       .companion-btn {
         margin-top: 20px;
@@ -596,13 +602,16 @@
         display: none;
       }
       summary::after {
-        content: "+";
-        color: var(--accent);
-        font-weight: 700;
-        font-size: 1.3rem;
+        content: "";
+        flex-shrink: 0;
+        width: 22px;
+        height: 22px;
+        background: url("assets/add_24dp_187339_FILL0_wght400_GRAD0_opsz24.svg")
+          center / contain no-repeat;
+        transition: transform 0.15s ease;
       }
       details[open] summary::after {
-        content: "–";
+        background-image: url("assets/stat_minus_1_24dp_187339_FILL0_wght400_GRAD0_opsz24.svg");
       }
       details p {
         color: var(--muted);
@@ -904,7 +913,7 @@
       .modal-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(20, 28, 20, 0.55);
+        background: rgba(20, 28, 20, 0.5);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -920,14 +929,14 @@
         opacity: 1;
       }
       .modal {
+        position: relative;
         background: var(--surface);
-        border-radius: 20px;
+        border-radius: 22px;
         width: 100%;
-        max-width: 440px;
+        max-width: 820px;
         max-height: calc(100vh - 40px);
-        overflow-y: auto;
-        padding: 28px;
-        box-shadow: 0 30px 70px -20px rgba(20, 40, 20, 0.45);
+        overflow: hidden;
+        box-shadow: 0 40px 90px -24px rgba(20, 40, 20, 0.5);
         transform: translateY(12px) scale(0.98);
         transition:
           transform 0.2s ease,
@@ -936,39 +945,133 @@
       .modal-overlay.open .modal {
         transform: none;
       }
-      .modal-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 16px;
-        margin-bottom: 6px;
+      .modal-grid {
+        display: grid;
+        grid-template-columns: 0.92fr 1.08fr;
+        max-height: calc(100vh - 40px);
       }
-      .modal-head h2 {
-        font-size: 1.3rem;
-        letter-spacing: -0.02em;
+
+      /* --- left / brand panel --- */
+      .modal-aside {
+        position: relative;
+        padding: 34px 32px;
+        background:
+          radial-gradient(
+            120% 80% at 0% 0%,
+            var(--lift-1) 0%,
+            #e4efe0 55%,
+            #dcebd6 100%
+          );
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .modal-aside-icon {
+        width: 48px;
+        height: 48px;
+        padding: 12px;
+        border-radius: 14px;
+        background: var(--surface);
+        color: var(--accent);
+        box-shadow: 0 6px 16px -8px rgba(20, 40, 20, 0.35);
+        margin-bottom: 16px;
+      }
+      .modal-aside-icon svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .modal-aside h2 {
+        font-size: 1.5rem;
+        letter-spacing: -0.025em;
+        margin-bottom: 8px;
+      }
+      .modal-aside .modal-sub {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-bottom: 22px;
+        max-width: 30ch;
+      }
+      .modal-perks {
+        list-style: none;
+        display: grid;
+        gap: 16px;
+        margin: 0;
+      }
+      .modal-perks li {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .perk-ic {
+        flex: none;
+        width: 34px;
+        height: 34px;
+        padding: 8px;
+        border-radius: 50%;
+        background: #ffffff;
+        color: var(--accent);
+        box-shadow: 0 3px 10px -4px rgba(20, 40, 20, 0.28);
+      }
+      .perk-ic svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .modal-perks strong {
+        display: block;
+        font-size: 0.9rem;
+        letter-spacing: -0.01em;
+      }
+      .modal-perks span {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+      .modal-illo {
+        margin: 28px -32px -34px;
+        pointer-events: none;
+      }
+      .modal-illo svg {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* --- right / form panel --- */
+      .modal-main {
+        padding: 34px 34px 30px;
+        overflow-y: auto;
       }
       .modal-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 34px;
+        height: 34px;
+        padding: 8px;
         border: 0;
-        background: transparent;
-        font-size: 1.5rem;
-        line-height: 1;
+        border-radius: 50%;
+        background: var(--surface);
         color: var(--muted);
         cursor: pointer;
-        padding: 2px 6px;
-        border-radius: 8px;
+        box-shadow: 0 4px 14px -4px rgba(20, 40, 20, 0.3);
+        z-index: 2;
+      }
+      .modal-close svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        fill: currentColor;
       }
       .modal-close:hover {
         color: var(--ink);
         background: var(--lift-1);
       }
-      .modal-sub {
-        color: var(--muted);
-        font-size: 0.92rem;
-        margin-bottom: 18px;
-      }
       .modal form {
         display: grid;
-        gap: 14px;
+        gap: 15px;
       }
       .modal form[hidden] {
         display: none;
@@ -978,9 +1081,9 @@
         gap: 6px;
       }
       .field label {
-        font-size: 0.82rem;
-        font-weight: 650;
-        letter-spacing: 0.01em;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
       }
       .field input,
       .field select,
@@ -988,15 +1091,19 @@
         font-family: inherit;
         font-size: 0.95rem;
         color: var(--ink);
-        background: var(--bg);
+        background: var(--surface);
         border: 1px solid var(--line);
         border-radius: 10px;
-        padding: 11px 12px;
+        padding: 11px 13px;
         width: 100%;
+      }
+      .field input::placeholder,
+      .field textarea::placeholder {
+        color: #9aa39a;
       }
       .field textarea {
         resize: vertical;
-        min-height: 74px;
+        min-height: 96px;
       }
       .field input:focus,
       .field select:focus,
@@ -1008,45 +1115,96 @@
       .modal form .btn {
         margin-top: 4px;
         width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+      }
+      .modal form .btn svg {
+        width: 17px;
+        height: 17px;
+      }
+      .modal form .btn[disabled] {
+        opacity: 0.65;
+        cursor: progress;
       }
       .modal-note {
         font-size: 0.8rem;
         color: var(--muted);
         text-align: center;
         margin-top: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+      .modal-note svg {
+        width: 13px;
+        height: 13px;
+        flex-shrink: 0;
       }
       #demoError {
         color: #b23c30;
       }
-      .modal form .btn[disabled] {
-        opacity: 0.65;
-        cursor: progress;
-      }
       .modal-success {
         text-align: center;
-        padding: 12px 4px 4px;
+        padding: 28px 4px 8px;
       }
       .modal-success-check {
-        width: 52px;
-        height: 52px;
-        margin: 0 auto 14px;
+        width: 56px;
+        height: 56px;
+        padding: 13px;
+        margin: 0 auto 16px;
         border-radius: 50%;
         background: var(--lift-1);
         color: var(--accent);
-        display: grid;
-        place-items: center;
-        font-size: 1.5rem;
-        font-weight: 700;
+      }
+      .modal-success-check svg {
+        width: 100%;
+        height: 100%;
+        display: block;
       }
       .modal-success h3 {
-        font-size: 1.15rem;
+        font-size: 1.2rem;
         letter-spacing: -0.02em;
         margin-bottom: 6px;
       }
       .modal-success p {
         color: var(--muted);
         font-size: 0.92rem;
-        margin-bottom: 18px;
+        margin-bottom: 20px;
+      }
+      @media (max-width: 720px) {
+        .modal {
+          max-width: 460px;
+          overflow-y: auto;
+        }
+        .modal-grid {
+          grid-template-columns: 1fr;
+          max-height: none;
+        }
+        .modal-aside {
+          padding: 22px 24px 20px;
+        }
+        .modal-aside-icon {
+          width: 42px;
+          height: 42px;
+          margin-bottom: 12px;
+        }
+        .modal-aside h2 {
+          font-size: 1.3rem;
+        }
+        .modal-aside .modal-sub {
+          margin-bottom: 0;
+        }
+        .modal-perks,
+        .modal-illo {
+          display: none;
+        }
+        .modal-main {
+          padding: 20px 24px 24px;
+          overflow-y: visible;
+        }
       }
       @media (prefers-reduced-motion: reduce) {
         .modal-overlay,
@@ -1534,71 +1692,166 @@
       hidden
     >
       <div class="modal">
-        <div class="modal-head">
-          <h2 id="demoModalTitle">Request a demo</h2>
-          <button type="button" class="modal-close" aria-label="Close">
-            &times;
-          </button>
-        </div>
-        <p class="modal-sub">
-          Tell us a little about what you need and we'll get back to you.
-        </p>
-        <form id="demoForm">
-          <div class="field">
-            <label for="demoName">Name</label>
-            <input type="text" id="demoName" name="name" required />
+        <button type="button" class="modal-close" aria-label="Close">
+          <svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M480-424 364-308q-11 11-28 11t-28-11q-11-11-11-28t11-28l116-116-116-115q-11-11-11-28t11-28q11-11 28-11t28 11l116 116 115-116q11-11 28-11t28 11q12 12 12 28.5T651-595L535-480l116 116q11 11 11 28t-11 28q-12 12-28.5 12T595-308L480-424Z"/></svg>
+        </button>
+        <div class="modal-grid">
+          <aside class="modal-aside">
+            <span class="modal-aside-icon">
+              <svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="m438-342 139-139q12-12 29-12t29 12q12 12 12 29t-12 29L466-254q-12 12-28 12t-28-12l-85-85q-12-12-12-29t12-29q12-12 29-12t29 12l55 55ZM200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-40q0-17 11.5-28.5T280-880q17 0 28.5 11.5T320-840v40h320v-40q0-17 11.5-28.5T680-880q17 0 28.5 11.5T720-840v40h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/></svg>
+            </span>
+            <h2 id="demoModalTitle">Request a demo</h2>
+            <p class="modal-sub">
+              Tell us a little about what you need and we'll get back to you.
+            </p>
+            <ul class="modal-perks">
+              <li>
+                <span class="perk-ic">
+                  <svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M40-272q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v32q0 33-23.5 56.5T600-160H120q-33 0-56.5-23.5T40-240v-32Zm800 112H738q11-18 16.5-38.5T760-240v-40q0-44-24.5-84.5T666-434q51 6 96 20.5t84 35.5q36 20 55 44.5t19 53.5v40q0 33-23.5 56.5T840-160ZM247-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47Zm466 0q-47 47-113 47-11 0-28-2.5t-28-5.5q27-32 41.5-71t14.5-81q0-42-14.5-81T544-792q14-5 28-6.5t28-1.5q66 0 113 47t47 113q0 66-47 113ZM120-240h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-343Z"/></svg>
+                </span>
+                <div>
+                  <strong>Personalized walkthrough</strong>
+                  <span>See how Speedup fits your events.</span>
+                </div>
+              </li>
+              <li>
+                <span class="perk-ic">
+                  <svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M520-496v-144q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640v159q0 8 3 15.5t9 13.5l132 132q11 11 28 11t28-11q11-11 11-28t-11-28L520-496ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z"/></svg>
+                </span>
+                <div>
+                  <strong>Get answers fast</strong>
+                  <span>We typically respond within 1 business day.</span>
+                </div>
+              </li>
+              <li>
+                <span class="perk-ic">
+                  <svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="m438-452-56-56q-12-12-28-12t-28 12q-12 12-12 28.5t12 28.5l84 85q12 12 28 12t28-12l170-170q12-12 12-28.5T636-593q-12-12-28.5-12T579-593L438-452Zm29 367q-6-1-12-3-135-45-215-166.5T160-516v-189q0-25 14.5-45t37.5-29l240-90q14-5 28-5t28 5l240 90q23 9 37.5 29t14.5 45v189q0 140-80 261.5T505-88q-6 2-12 3t-13 1q-7 0-13-1Zm13-79q104-33 172-132t68-220v-189l-240-90-240 90v189q0 121 68 220t172 132Zm0-316Z"/></svg>
+                </span>
+                <div>
+                  <strong>No obligation</strong>
+                  <span>Just a friendly conversation.</span>
+                </div>
+              </li>
+            </ul>
+            <div class="modal-illo" aria-hidden="true">
+              <svg viewBox="0 0 340 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 120c40-26 78-26 120 0s96 26 130 4 90-30 90-30V150H0z" fill="#cfe4c7"/>
+                <path d="M0 138c46-20 92-14 150 4s130 8 190-14V150H0z" fill="#bfdcb4"/>
+                <g>
+                  <rect x="34" y="46" width="120" height="82" rx="10" fill="#ffffff" stroke="#cbdcc4" stroke-width="1.5"/>
+                  <rect x="34" y="46" width="120" height="20" rx="10" fill="#eef4ec"/>
+                  <circle cx="46" cy="56" r="2.4" fill="#b9cdb1"/>
+                  <circle cx="55" cy="56" r="2.4" fill="#b9cdb1"/>
+                  <circle cx="64" cy="56" r="2.4" fill="#b9cdb1"/>
+                  <circle cx="58" cy="92" r="12" fill="#e7f1e3"/>
+                  <path d="M53 92l4 4 7-8" stroke="#2f7d3f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <rect x="80" y="82" width="58" height="6" rx="3" fill="#e3ebe0"/>
+                  <rect x="80" y="94" width="44" height="6" rx="3" fill="#e3ebe0"/>
+                  <rect x="80" y="106" width="52" height="6" rx="3" fill="#e3ebe0"/>
+                </g>
+                <path d="M160 96c26 4 40-10 44-24s16-24 34-20" stroke="#8fbf88" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 8"/>
+                <g transform="translate(250 40)">
+                  <circle cx="0" cy="0" r="16" fill="#f4d03f"/>
+                  <circle cx="-6" cy="-6" r="2" fill="#3a7d2f"/>
+                  <circle cx="4" cy="-8" r="2" fill="#3a7d2f"/>
+                  <circle cx="8" cy="1" r="2" fill="#3a7d2f"/>
+                  <circle cx="0" cy="4" r="2" fill="#3a7d2f"/>
+                  <circle cx="-8" cy="3" r="2" fill="#3a7d2f"/>
+                  <circle cx="2" cy="9" r="1.6" fill="#3a7d2f"/>
+                </g>
+              </svg>
+            </div>
+          </aside>
+
+          <div class="modal-main">
+            <form id="demoForm">
+              <div class="field">
+                <label for="demoName">Name</label>
+                <input
+                  type="text"
+                  id="demoName"
+                  name="name"
+                  placeholder="Your full name"
+                  required
+                />
+              </div>
+              <div class="field">
+                <label for="demoEmail">Email</label>
+                <input
+                  type="email"
+                  id="demoEmail"
+                  name="email"
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+              <div class="field">
+                <label for="demoTopic">What can we help with?</label>
+                <select id="demoTopic" name="topic" required>
+                  <option value="Request a demo">Request a demo</option>
+                  <option value="Request a quotation">
+                    Request a quotation
+                  </option>
+                  <option value="Pricing question">Pricing question</option>
+                  <option value="Draw Wheel enquiry">Draw Wheel enquiry</option>
+                  <option value="Partnership / reseller">
+                    Partnership / reseller
+                  </option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="demoMsg"
+                  >Message
+                  <span style="font-weight: 400; color: var(--muted)"
+                    >(optional)</span
+                  ></label
+                >
+                <textarea
+                  id="demoMsg"
+                  name="message"
+                  rows="3"
+                  placeholder="Tell us more about your event or questions…"
+                ></textarea>
+              </div>
+              <!-- honeypot: bots fill this, humans never see it -->
+              <input
+                type="checkbox"
+                name="botcheck"
+                id="demoBotcheck"
+                tabindex="-1"
+                autocomplete="off"
+                style="
+                  position: absolute;
+                  left: -9999px;
+                  width: 1px;
+                  height: 1px;
+                  opacity: 0;
+                "
+              />
+              <button type="submit" class="btn btn-primary" id="demoSubmit">
+                <svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M792-443 176-183q-20 8-38-3.5T120-220v-520q0-22 18-33.5t38-3.5l616 260q25 11 25 37t-25 37ZM200-280l474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/></svg>
+                <span>Send request</span>
+              </button>
+              <p class="modal-note">
+                <svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/></svg>
+                <span>Sent securely &mdash; we reply by email.</span>
+              </p>
+              <p class="modal-note" id="demoError" hidden></p>
+            </form>
+            <div class="modal-success" id="demoSuccess" hidden>
+              <div class="modal-success-check">
+                <svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="m382-354 339-339q12-12 28-12t28 12q12 12 12 28.5T777-636L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497q12-12 28.5-12t28.5 12l142 143Z"/></svg>
+              </div>
+              <h3>Request sent</h3>
+              <p>
+                Thanks &mdash; we've got your details and will be in touch soon.
+              </p>
+              <button type="button" class="btn btn-ghost" data-close>
+                Close
+              </button>
+            </div>
           </div>
-          <div class="field">
-            <label for="demoEmail">Email</label>
-            <input type="email" id="demoEmail" name="email" required />
-          </div>
-          <div class="field">
-            <label for="demoTopic">What can we help with?</label>
-            <select id="demoTopic" name="topic" required>
-              <option value="Request a demo">Request a demo</option>
-              <option value="Request a quotation">Request a quotation</option>
-              <option value="Pricing question">Pricing question</option>
-              <option value="Draw Wheel enquiry">Draw Wheel enquiry</option>
-              <option value="Partnership / reseller">
-                Partnership / reseller
-              </option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="demoMsg"
-              >Message
-              <span style="font-weight: 400; color: var(--muted)"
-                >(optional)</span
-              ></label
-            >
-            <textarea id="demoMsg" name="message" rows="3"></textarea>
-          </div>
-          <!-- honeypot: bots fill this, humans never see it -->
-          <input
-            type="checkbox"
-            name="botcheck"
-            id="demoBotcheck"
-            tabindex="-1"
-            autocomplete="off"
-            style="
-              position: absolute;
-              left: -9999px;
-              width: 1px;
-              height: 1px;
-              opacity: 0;
-            "
-          />
-          <button type="submit" class="btn btn-primary" id="demoSubmit">
-            Send request
-          </button>
-          <p class="modal-note" id="demoError" hidden></p>
-        </form>
-        <div class="modal-success" id="demoSuccess" hidden>
-          <div class="modal-success-check">&#10003;</div>
-          <h3>Request sent</h3>
-          <p>Thanks &mdash; we've got your details and will be in touch soon.</p>
-          <button type="button" class="btn btn-ghost" data-close>Close</button>
         </div>
       </div>
     </div>
