@@ -970,6 +970,9 @@
         display: grid;
         gap: 14px;
       }
+      .modal form[hidden] {
+        display: none;
+      }
       .field {
         display: grid;
         gap: 6px;
@@ -1011,6 +1014,39 @@
         color: var(--muted);
         text-align: center;
         margin-top: 2px;
+      }
+      #demoError {
+        color: #b23c30;
+      }
+      .modal form .btn[disabled] {
+        opacity: 0.65;
+        cursor: progress;
+      }
+      .modal-success {
+        text-align: center;
+        padding: 12px 4px 4px;
+      }
+      .modal-success-check {
+        width: 52px;
+        height: 52px;
+        margin: 0 auto 14px;
+        border-radius: 50%;
+        background: var(--lift-1);
+        color: var(--accent);
+        display: grid;
+        place-items: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+      .modal-success h3 {
+        font-size: 1.15rem;
+        letter-spacing: -0.02em;
+        margin-bottom: 6px;
+      }
+      .modal-success p {
+        color: var(--muted);
+        font-size: 0.92rem;
+        margin-bottom: 18px;
       }
       @media (prefers-reduced-motion: reduce) {
         .modal-overlay,
@@ -1530,12 +1566,40 @@
             </select>
           </div>
           <div class="field">
-            <label for="demoMsg">Message <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+            <label for="demoMsg"
+              >Message
+              <span style="font-weight: 400; color: var(--muted)"
+                >(optional)</span
+              ></label
+            >
             <textarea id="demoMsg" name="message" rows="3"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">Send request</button>
-          <p class="modal-note">Opens in your email app to send.</p>
+          <!-- honeypot: bots fill this, humans never see it -->
+          <input
+            type="checkbox"
+            name="botcheck"
+            id="demoBotcheck"
+            tabindex="-1"
+            autocomplete="off"
+            style="
+              position: absolute;
+              left: -9999px;
+              width: 1px;
+              height: 1px;
+              opacity: 0;
+            "
+          />
+          <button type="submit" class="btn btn-primary" id="demoSubmit">
+            Send request
+          </button>
+          <p class="modal-note" id="demoError" hidden></p>
         </form>
+        <div class="modal-success" id="demoSuccess" hidden>
+          <div class="modal-success-check">&#10003;</div>
+          <h3>Request sent</h3>
+          <p>Thanks &mdash; we've got your details and will be in touch soon.</p>
+          <button type="button" class="btn btn-ghost" data-close>Close</button>
+        </div>
       </div>
     </div>
 
@@ -1566,17 +1630,22 @@
 
       /* ---- Demo request modal ---- */
       (function () {
+        // Web3Forms delivers submissions to babsremoreras@gmail.com.
+        var WEB3FORMS_KEY = "886d0ef4-d4ef-41a1-bb9f-ba53ac134f1d";
         var CONTACT_EMAIL = "babsremoreras@gmail.com";
+
         var overlay = document.getElementById("demoModal");
         var form = document.getElementById("demoForm");
         if (!overlay || !form) return;
         var closeBtn = overlay.querySelector(".modal-close");
+        var submitBtn = document.getElementById("demoSubmit");
+        var errorEl = document.getElementById("demoError");
+        var successEl = document.getElementById("demoSuccess");
         var lastFocused = null;
 
         function open(trigger) {
           lastFocused = trigger || document.activeElement;
           overlay.hidden = false;
-          // next frame so the CSS transition runs
           requestAnimationFrame(function () {
             overlay.classList.add("open");
           });
@@ -1591,11 +1660,17 @@
           var done = function () {
             overlay.hidden = true;
             overlay.removeEventListener("transitionend", done);
+            // reset back to the form for next time
+            form.hidden = false;
+            successEl.hidden = true;
           };
           overlay.addEventListener("transitionend", done);
-          // fallback if no transition fired
           setTimeout(function () {
-            if (!overlay.classList.contains("open")) overlay.hidden = true;
+            if (!overlay.classList.contains("open")) {
+              overlay.hidden = true;
+              form.hidden = false;
+              successEl.hidden = true;
+            }
           }, 300);
           if (lastFocused && lastFocused.focus) lastFocused.focus();
         }
@@ -1604,6 +1679,9 @@
           btn.addEventListener("click", function () {
             open(btn);
           });
+        });
+        overlay.querySelectorAll("[data-close]").forEach(function (btn) {
+          btn.addEventListener("click", close);
         });
 
         closeBtn.addEventListener("click", close);
@@ -1614,12 +1692,7 @@
           if (e.key === "Escape" && !overlay.hidden) close();
         });
 
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
-          var name = document.getElementById("demoName").value.trim();
-          var email = document.getElementById("demoEmail").value.trim();
-          var topic = document.getElementById("demoTopic").value;
-          var message = document.getElementById("demoMsg").value.trim();
+        function mailtoFallback(name, email, topic, message) {
           var subject = "[Speedup] " + topic + " — " + name;
           var body =
             "Name: " +
@@ -1631,16 +1704,71 @@
             "\n\n" +
             (message || "(no message)") +
             "\n";
-          var href =
+          window.location.href =
             "mailto:" +
             CONTACT_EMAIL +
             "?subject=" +
             encodeURIComponent(subject) +
             "&body=" +
             encodeURIComponent(body);
-          window.location.href = href;
-          close();
-          form.reset();
+        }
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          if (document.getElementById("demoBotcheck").checked) return; // bot
+
+          var name = document.getElementById("demoName").value.trim();
+          var email = document.getElementById("demoEmail").value.trim();
+          var topic = document.getElementById("demoTopic").value;
+          var message = document.getElementById("demoMsg").value.trim();
+
+          errorEl.hidden = true;
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Sending…";
+
+          var payload = {
+            access_key: WEB3FORMS_KEY,
+            subject: "[Speedup] " + topic + " — " + name,
+            from_name: "Speedup landing page",
+            name: name,
+            email: email,
+            request_type: topic,
+            message: message || "(no message)",
+          };
+
+          fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(payload),
+          })
+            .then(function (res) {
+              return res.json().catch(function () {
+                return {};
+              });
+            })
+            .then(function (data) {
+              if (data && data.success) {
+                form.reset();
+                form.hidden = true;
+                successEl.hidden = false;
+              } else {
+                throw new Error((data && data.message) || "Send failed");
+              }
+            })
+            .catch(function () {
+              // network/API problem — fall back to the visitor's email app
+              errorEl.textContent =
+                "Couldn't send automatically — opening your email app instead…";
+              errorEl.hidden = false;
+              mailtoFallback(name, email, topic, message);
+            })
+            .finally(function () {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Send request";
+            });
         });
       })();
     </script>
