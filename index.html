@@ -850,33 +850,36 @@
         }
       }
 
-      /* ---------------- Floating WhatsApp button ---------------- */
-      .wa-float {
+      /* ---------------- Floating contact buttons (WhatsApp / Telegram) ---------------- */
+      .fab-stack {
         position: fixed;
         right: 24px;
         bottom: 24px;
         z-index: 900;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 14px;
+      }
+      .fab {
         display: inline-flex;
         align-items: center;
         gap: 0;
         height: 60px;
         padding: 0;
         border-radius: 999px;
-        background: linear-gradient(145deg, #2bd671 0%, #1fb457 100%);
         color: #fff;
         text-decoration: none;
         font-weight: 700;
         font-size: 0.95rem;
         letter-spacing: 0.005em;
-        box-shadow: 0 10px 24px rgba(18, 140, 70, 0.36),
-          0 2px 6px rgba(0, 0, 0, 0.12);
         overflow: hidden;
         max-width: 60px;
         transition: max-width 0.32s cubic-bezier(0.22, 1, 0.36, 1),
           box-shadow 0.2s ease, transform 0.2s ease;
-        animation: wa-pop 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
+        animation: fab-pop 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
       }
-      .wa-float__icon {
+      .fab__icon {
         flex: 0 0 60px;
         width: 60px;
         height: 60px;
@@ -884,7 +887,7 @@
         place-items: center;
         position: relative;
       }
-      .wa-float__icon svg {
+      .fab__icon svg {
         width: 30px;
         height: 30px;
         fill: currentColor;
@@ -892,37 +895,31 @@
         z-index: 1;
       }
       /* pulsing ring */
-      .wa-float__icon::before {
+      .fab__icon::before {
         content: "";
         position: absolute;
         inset: 12px;
         border-radius: 50%;
         border: 2px solid rgba(255, 255, 255, 0.55);
-        animation: wa-pulse 2.4s ease-out infinite;
+        animation: fab-pulse 2.4s ease-out infinite;
       }
-      .wa-float__label {
+      .fab__label {
         white-space: nowrap;
         padding-right: 22px;
         opacity: 0;
         transition: opacity 0.2s ease 0.06s;
       }
-      .wa-float:hover,
-      .wa-float:focus-visible {
+      .fab:hover,
+      .fab:focus-visible {
         max-width: 260px;
         transform: translateY(-2px);
-        box-shadow: 0 16px 32px rgba(18, 140, 70, 0.42),
-          0 3px 8px rgba(0, 0, 0, 0.16);
         outline: none;
       }
-      .wa-float:hover .wa-float__label,
-      .wa-float:focus-visible .wa-float__label {
+      .fab:hover .fab__label,
+      .fab:focus-visible .fab__label {
         opacity: 1;
       }
-      .wa-float:focus-visible {
-        box-shadow: 0 16px 32px rgba(18, 140, 70, 0.42),
-          0 0 0 4px rgba(43, 214, 113, 0.35);
-      }
-      @keyframes wa-pop {
+      @keyframes fab-pop {
         from {
           transform: scale(0.4);
           opacity: 0;
@@ -932,7 +929,7 @@
           opacity: 1;
         }
       }
-      @keyframes wa-pulse {
+      @keyframes fab-pulse {
         0% {
           transform: scale(0.9);
           opacity: 0.7;
@@ -945,38 +942,74 @@
           opacity: 0;
         }
       }
+
+      .wa-float {
+        background: linear-gradient(145deg, #2bd671 0%, #1fb457 100%);
+        box-shadow: 0 10px 24px rgba(18, 140, 70, 0.36),
+          0 2px 6px rgba(0, 0, 0, 0.12);
+        animation-delay: 0.6s;
+      }
+      .wa-float:hover,
+      .wa-float:focus-visible {
+        box-shadow: 0 16px 32px rgba(18, 140, 70, 0.42),
+          0 3px 8px rgba(0, 0, 0, 0.16);
+      }
+      .wa-float:focus-visible {
+        box-shadow: 0 16px 32px rgba(18, 140, 70, 0.42),
+          0 0 0 4px rgba(43, 214, 113, 0.35);
+      }
+
+      .tg-float {
+        background: linear-gradient(145deg, #4dbdf5 0%, #1b8fd6 100%);
+        box-shadow: 0 10px 24px rgba(20, 110, 170, 0.36),
+          0 2px 6px rgba(0, 0, 0, 0.12);
+        animation-delay: 0.45s;
+      }
+      .tg-float:hover,
+      .tg-float:focus-visible {
+        box-shadow: 0 16px 32px rgba(20, 110, 170, 0.42),
+          0 3px 8px rgba(0, 0, 0, 0.16);
+      }
+      .tg-float:focus-visible {
+        box-shadow: 0 16px 32px rgba(20, 110, 170, 0.42),
+          0 0 0 4px rgba(77, 189, 245, 0.35);
+      }
+
       @media (max-width: 640px) {
-        .wa-float {
+        .fab-stack {
           right: 16px;
           bottom: 16px;
+          gap: 10px;
+        }
+        .fab {
           height: 54px;
           max-width: 54px;
         }
-        .wa-float__icon {
+        .fab__icon {
           flex-basis: 54px;
           width: 54px;
           height: 54px;
         }
-        .wa-float__icon svg {
+        .fab__icon svg {
           width: 27px;
           height: 27px;
         }
         /* no expand-on-tap on mobile */
-        .wa-float:hover,
-        .wa-float:focus-visible {
+        .fab:hover,
+        .fab:focus-visible {
           max-width: 54px;
         }
-        .wa-float:hover .wa-float__label,
-        .wa-float:focus-visible .wa-float__label {
+        .fab:hover .fab__label,
+        .fab:focus-visible .fab__label {
           opacity: 0;
         }
       }
       @media (prefers-reduced-motion: reduce) {
-        .wa-float {
+        .fab {
           animation: none;
           transition: max-width 0.2s ease;
         }
-        .wa-float__icon::before {
+        .fab__icon::before {
           animation: none;
           display: none;
         }
@@ -1997,22 +2030,38 @@
       </footer>
     </div>
 
-    <!-- FLOATING WHATSAPP BUTTON -->
-    <a
-      class="wa-float"
-      href="https://wa.me/639061223189"
-      target="_blank"
-      rel="noopener"
-      aria-label="Chat with us on WhatsApp"
-    >
-      <span class="wa-float__icon">
-        <svg viewBox="0 0 32 30" aria-hidden="true">
-          <path d="M16.0273 0C7.74266 0 1.02734 6.71532 1.02734 15C1.02734 17.7251 1.75393 20.2812 3.02503 22.4835L1.02734 30L8.81954 28.1575C10.9586 29.3315 13.4149 30 16.0273 30C24.312 30 31.0273 23.2847 31.0273 15C31.0273 6.71532 24.312 0 16.0273 0ZM16.0273 27.313C13.5207 27.313 11.1883 26.5639 9.24353 25.2772L4.63948 26.4494L5.93052 22.0491C4.5337 20.0523 3.71434 17.622 3.71434 15C3.71434 8.19971 9.22705 2.68699 16.0273 2.68699C22.8276 2.68699 28.3403 8.19971 28.3403 15C28.3403 21.8003 22.8276 27.313 16.0273 27.313Z"/>
-          <path d="M19.5432 16.9803L23.1727 18.691C23.3392 18.7699 23.4458 18.9381 23.4311 19.1219C23.3921 19.5997 23.2004 20.5569 22.3421 21.4144C19.9204 23.8361 15.5713 21.0962 15.3944 20.9904C14.3244 20.4156 13.3083 19.6473 12.345 18.6832C11.3817 17.7199 10.6126 16.7028 10.0377 15.6338C9.93195 15.4569 7.19207 11.1086 9.61374 8.68608C10.4721 7.8277 11.4285 7.63694 11.9062 7.59706C12.09 7.58232 12.2591 7.68897 12.3372 7.85544L14.0478 11.4849C14.1285 11.6566 14.0929 11.8604 13.9594 11.9947L12.684 13.2702C12.4083 13.5459 12.3267 13.9751 12.5175 14.3158C12.9831 15.1508 13.6091 15.9546 14.334 16.6942C15.0736 17.419 15.8773 18.045 16.7123 18.5106C17.053 18.7005 17.4822 18.6199 17.758 18.3442L19.0334 17.0687C19.1678 16.9343 19.3715 16.8988 19.5432 16.9803Z"/>
-        </svg>
-      </span>
-      <span class="wa-float__label">Chat with us</span>
-    </a>
+    <!-- FLOATING CONTACT BUTTONS -->
+    <div class="fab-stack">
+      <a
+        class="fab tg-float"
+        href="https://t.me/+639061223189"
+        target="_blank"
+        rel="noopener"
+        aria-label="Message us on Telegram"
+      >
+        <span class="fab__icon">
+          <svg viewBox="0 0 448 512" aria-hidden="true">
+            <path d="M446.7 98.6l-67.6 318.8c-5.1 22.5-18.4 28.1-37.3 17.5l-103-75.9-49.7 47.8c-5.5 5.5-10.1 10.1-20.7 10.1l7.4-104.9L366.6 133.2c8.3-7.4-1.8-11.5-12.9-4.1L117.8 284 15.7 251.8c-22.1-6.9-22.5-22.1 4.6-32.7L418.2 66.4c18.4-6.9 34.5 4.1 28.5 32.2z"/>
+          </svg>
+        </span>
+        <span class="fab__label">Message us</span>
+      </a>
+      <a
+        class="fab wa-float"
+        href="https://wa.me/639061223189?text=Hi%20Speedup%21%20I%27d%20like%20to%20ask%20about%20running%20my%20pickleball%20tournament%20with%20Speedup%20Tournament%20Manager."
+        target="_blank"
+        rel="noopener"
+        aria-label="Chat with us on WhatsApp"
+      >
+        <span class="fab__icon">
+          <svg viewBox="0 0 32 30" aria-hidden="true">
+            <path d="M16.0273 0C7.74266 0 1.02734 6.71532 1.02734 15C1.02734 17.7251 1.75393 20.2812 3.02503 22.4835L1.02734 30L8.81954 28.1575C10.9586 29.3315 13.4149 30 16.0273 30C24.312 30 31.0273 23.2847 31.0273 15C31.0273 6.71532 24.312 0 16.0273 0ZM16.0273 27.313C13.5207 27.313 11.1883 26.5639 9.24353 25.2772L4.63948 26.4494L5.93052 22.0491C4.5337 20.0523 3.71434 17.622 3.71434 15C3.71434 8.19971 9.22705 2.68699 16.0273 2.68699C22.8276 2.68699 28.3403 8.19971 28.3403 15C28.3403 21.8003 22.8276 27.313 16.0273 27.313Z"/>
+            <path d="M19.5432 16.9803L23.1727 18.691C23.3392 18.7699 23.4458 18.9381 23.4311 19.1219C23.3921 19.5997 23.2004 20.5569 22.3421 21.4144C19.9204 23.8361 15.5713 21.0962 15.3944 20.9904C14.3244 20.4156 13.3083 19.6473 12.345 18.6832C11.3817 17.7199 10.6126 16.7028 10.0377 15.6338C9.93195 15.4569 7.19207 11.1086 9.61374 8.68608C10.4721 7.8277 11.4285 7.63694 11.9062 7.59706C12.09 7.58232 12.2591 7.68897 12.3372 7.85544L14.0478 11.4849C14.1285 11.6566 14.0929 11.8604 13.9594 11.9947L12.684 13.2702C12.4083 13.5459 12.3267 13.9751 12.5175 14.3158C12.9831 15.1508 13.6091 15.9546 14.334 16.6942C15.0736 17.419 15.8773 18.045 16.7123 18.5106C17.053 18.7005 17.4822 18.6199 17.758 18.3442L19.0334 17.0687C19.1678 16.9343 19.3715 16.8988 19.5432 16.9803Z"/>
+          </svg>
+        </span>
+        <span class="fab__label">Chat with us</span>
+      </a>
+    </div>
 
     <!-- DEMO REQUEST MODAL -->
     <div
